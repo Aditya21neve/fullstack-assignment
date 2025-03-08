@@ -6,6 +6,9 @@
     "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "typeRoots": ["./node_modules/@types", "./@types"],
+    "types": ["node", "express"]
+  },
+  "include": ["src", "@types"]
 }
