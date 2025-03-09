@@ -56,7 +56,29 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       expiresIn: "1h",
     });
 
-    res.json({ message: "Login successful", token });
+    const { password: _, ...userWithoutPassword } = user;
+
+    res.json({
+      message: "Login successful",
+      token,
+      user: userWithoutPassword,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
+export const getUser = async (req: any, res: Response) => {
+  try {
+    // check the token and return user
+    const { email } = req.user;
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      res.status(400).json({ message: "User not found" });
+      return;
+    }
+
+    res.json({ user });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error });
   }

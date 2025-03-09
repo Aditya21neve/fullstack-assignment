@@ -35,14 +35,13 @@ export const uploadImage = async (req: any, res: Response): Promise<void> => {
 };
 
 // Get All Images for a User
-export const getUserImages = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getUserImages = async (req: any, res: Response): Promise<void> => {
   try {
-    const { userId } = req.params;
+    console.log(req.user, "req.user");
 
-    const images = await prisma.image.findMany({ where: { userId } });
+    const { id } = req.user;
+
+    const images = await prisma.image.findMany({ where: { userId: id } });
 
     res.json({ images });
   } catch (error) {
